@@ -1,0 +1,262 @@
+# pelbot/config/geo.yml
+# Geographic Configuration
+geo:
+  LA:
+    state_name: Louisiana
+    state_id: LA
+    parishes:
+      - id: 1
+        name: Acadia
+        abbr: ACAD
+
+      - id: 2
+        name: Allen
+        abbr: ALLN
+
+      - id: 3
+        name: Ascension
+        abbr: ASCN
+
+      - id: 4
+        name: Assumption
+        abbr: ASMP
+
+      - id: 5
+        name: Avoyelles
+        abbr: AVLS
+
+      - id: 6
+        name: Beauregard
+        abbr: BEAU
+
+      - id: 7
+        name: Bienville
+        abbr: BNVL
+
+      - id: 8
+        name: Bossier
+        abbr: BSSR
+
+      - id: 9
+        name: Caddo
+        abbr: CADO
+
+      - id: 10
+        name: Calcasieu
+        abbr: CALC
+
+      - id: 11
+        name: Caldwell
+        abbr: CALD
+
+      - id: 12
+        name: Cameron
+        abbr: CAMN
+
+      - id: 13
+        name: Catahoula
+        abbr: CATL
+
+      - id: 14
+        name: Claiborne
+        abbr: CLBN
+
+      - id: 15
+        name: Concordia
+        abbr: CNCD
+
+      - id: 16
+        name: DeSoto
+        abbr: DSTO
+
+      - id: 17
+        name: East Baton Rouge
+        abbr: EBTR
+
+      - id: 18
+        name: East Carroll
+        abbr: ECRL
+
+      - id: 19
+        name: East Feliciana
+        abbr: EFLC
+
+      - id: 20
+        name: Evangeline
+        abbr: EVNG
+
+      - id: 21
+        name: Franklin
+        abbr: FRNK
+
+      - id: 22
+        name: Grant
+        abbr: GRNT
+
+      - id: 23
+        name: Iberia
+        abbr: IBRA
+
+      - id: 24
+        name: Iberville
+        abbr: IBVL
+
+      - id: 25
+        name: Jackson
+        abbr: JAXN
+
+      - id: 26
+        name: Jefferson
+        abbr: JEFF
+
+      - id: 27
+        name: Jefferson Davis
+        abbr: JFDV
+
+      - id: 28
+        name: Lafayette
+        abbr: LAFT
+
+      - id: 29
+        name: Lafourche
+        abbr: LAFX
+
+      - id: 30
+        name: LaSalle
+        abbr: LASL
+
+      - id: 31
+        name: Lincoln
+        abbr: LNCN
+
+      - id: 32
+        name: Livingston
+        abbr: LVGN
+
+      - id: 33
+        name: Madison
+        abbr: MDSN
+
+      - id: 34
+        name: Morehouse
+        abbr: MRHS
+
+      - id: 35
+        name: Natchitoches
+        abbr: NTCH
+
+      - id: 36
+        name: Orleans
+        abbr: ORLN
+
+      - id: 37
+        name: Ouachita
+        abbr: OUCT
+
+      - id: 38
+        name: Plaquemines
+        abbr: PLQM
+
+      - id: 39
+        name: Pointe Coupee
+        abbr: PTCP
+
+      - id: 40
+        name: Rapides
+        abbr: RAPD
+
+      - id: 41
+        name: Red River
+        abbr: RDRV
+
+      - id: 42
+        name: Richland
+        abbr: RICH
+
+      - id: 43
+        name: Sabine
+        abbr: SABN
+
+      - id: 44
+        name: St. Bernard
+        abbr: STBR
+
+      - id: 45
+        name: St. Charles
+        abbr: STCH
+
+      - id: 46
+        name: St. Helena
+        abbr: STHL
+
+      - id: 47
+        name: St. James
+        abbr: STJM
+
+      - id: 48
+        name: St. John
+        abbr: STJN
+
+      - id: 49
+        name: St. Landry
+        abbr: STLN
+
+      - id: 50
+        name: St. Martin
+        abbr: STMT
+
+      - id: 51
+        name: St. Mary
+        abbr: STMY
+
+      - id: 52
+        name: St. Tammany
+        abbr: STTM
+
+      - id: 53
+        name: Tangipahoa
+        abbr: TNGP
+
+      - id: 54
+        name: Tensas
+        abbr: TNSA
+
+      - id: 55
+        name: Terrebonne
+        abbr: TRBN
+
+      - id: 56
+        name: Union
+        abbr: UNON
+
+      - id: 57
+        name: Vermilion
+        abbr: VRML
+
+      - id: 58
+        name: Vernon
+        abbr: VRNN
+
+      - id: 59
+        name: Washington
+        abbr: WASH
+
+      - id: 60
+        name: Webster
+        abbr: WBST
+
+      - id: 61
+        name: West Baton Rouge
+        abbr: WBTR
+
+      - id: 62
+        name: West Carroll
+        abbr: WCRL
+
+      - id: 63
+        name: West Feliciana
+        abbr: WFLC
+
+      - id: 64
+        name: Winn
+        abbr: WINN
