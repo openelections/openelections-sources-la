@@ -1,0 +1,7 @@
+# pelbot/config/main.yml
+# Application Configuration
+
+logging:
+  level: info  # How much logging: debug, info, warning, error, critical
+  verbose: false # Add timestamps & module names to logs
+
