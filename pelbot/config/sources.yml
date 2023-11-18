@@ -1,0 +1,35 @@
+# pelbot/config/sources.yml
+# Configuration of data sources
+
+sources:
+  LA:
+    agency:
+      name: Secretary of State
+      url: https://www.sos.la.gov/Pages/default.aspx
+      description: Official website of the Louisiana Secretary of State, providing various election-related data.
+
+# WE GOT SO LUCKY WITH THIS
+    # Historical Election Data
+    historical:
+      - name: HumanReadableElectionResults
+        url: https://voterportal.sos.la.gov/graphical
+        description: Direct links to downloadable files of election results. Files are in XLSX format.
+        schema:
+          base_url: https://s3-us-west-2.amazonaws.com/mediaresults.sos.la.gov/HumanReadableElectionResults/YYYYMMDD/
+          file_pattern: "Election+Results+(MM-DD-YYYY).xlsx"
+          notes: Replace YYYYMMDD and MM-DD-YYYY with the actual date of the election.
+        example: " https://s3-us-west-2.amazonaws.com/mediaresults.sos.la.gov/HumanReadableElectionResults/20221108/Election+Results+(11-08-2022).xlsx"
+
+
+# Not using this right now, but put it in here anyway
+    # Voter Registration Data
+    registration:
+      url: https://www.sos.la.gov/ElectionsAndVoting/Pages/RegistrationStatisticsParish.aspx
+      type: parish
+      description: Provides registration statistics by parish. Data available in XLS format.
+      schema:
+        example: https://electionstatistics.sos.la.gov/Data/Registration_Statistics/parish/2023_1001_par_comb.xls
+        pattern: "https://electionstatistics.sos.la.gov/Data/Registration_Statistics/parish/YYYY_MMDD_par_comb.xls"
+        notes: Replace YYYY and MMDD with the year and date for specific data.
+
+
