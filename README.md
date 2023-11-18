@@ -22,11 +22,12 @@ This repository contains the original data files sourced from the Louisiana Secr
 ## Getting Started 🚀
 
 <div align="center">
- <img src="pelbot/assets/header.png"/></a>
+ <a href="pelbot"><img src="pelbot/assets/header.png"/></a>
 </div>
-To contribute or import your own data, please refer to [Pelican Bot](pelbot/README.md) for detailed setup and running instructions.
 
-PelicanBot is an automated tool designed to scrape and collect election result data for the state of Louisiana from the Secretary of State's website.
+To contribute or import your own data, please refer to [PelicanBot](pelbot) for detailed setup and running instructions.
+
+[PelicanBot](pelbot) is an automated tool designed to scrape and collect election result data for the state of Louisiana from the Secretary of State's website.
 
 ## Data Integrity & Sources 🔍
 We prioritize data integrity by sourcing information directly from the Louisiana Secretary of State's official channels. Election result data is collected from their [Graphical Election Results Tool](https://voterportal.sos.la.gov/Graphical), which provides authentic and verifiable source files.
