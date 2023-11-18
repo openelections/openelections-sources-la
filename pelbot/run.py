@@ -2,8 +2,6 @@
 import os
 from dotenv import load_dotenv
 
-
-
 def main():
     from app import logger, config_me, lets_fly
 
