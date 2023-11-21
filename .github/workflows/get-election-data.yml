@@ -9,7 +9,7 @@ on:
 
 
 env:
-  CAPTURE_RANGE: all
+  CAPTURE_RANGE: 20201103
   CAPTURE_TYPE: historical
   STATE: LA
 
@@ -42,6 +42,16 @@ jobs:
         CAPTURE_TYPE: ${{ env.CAPTURE_TYPE }}
         STATE: ${{ env.STATE }}
 
+
+    - name: Find Data Directory
+      run: |
+        printf "Root directory contents:\n"
+        ls -a
+        printf "\ndata directory contents:\n"
+        ls -a data
+        printf "\nSubdirectories of data:\n"
+        ls -aR data/
+
     # TODO: Setup ElectionBot & Import GPG Key for Verified Commits
     # Docs: https://github.com/crazy-max/ghaction-import-gpg?tab=readme-ov-file#usage
 
@@ -50,7 +60,7 @@ jobs:
       with:
         commit_message: Updated Raw Election Files
         branch: main
-        file_pattern: data/*  # Where are we looking for changes?
+        file_pattern: data/**/*  # Where are we looking for changes?
         repository: .       # Working within the root of your repository
         commit_user_name: ${{ secrets.USER_NAME }}
         commit_user_email: ${{ secrets.USER_EMAIL }}
