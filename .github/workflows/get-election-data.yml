@@ -13,7 +13,7 @@ on:
 
 
 env:
-  CAPTURE_RANGE: 2020
+  CAPTURE_RANGE: all
   CAPTURE_TYPE: historical
   STATE: LA
   ORG_NAME: openelections
