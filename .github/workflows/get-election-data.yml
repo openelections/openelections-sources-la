@@ -2,74 +2,94 @@ name: Capture State Data
 
 on:
   schedule:
-    # Runs at 1 AM every day
-  - cron: '0 1 * * *'
-
+    - cron: '0 1 * * *'
   workflow_dispatch:
 
-
 env:
-  CAPTURE_RANGE: 2023
+  CAPTURE_RANGE: 2020
   CAPTURE_TYPE: historical
   STATE: LA
   ORG_NAME: openelections
   DATA_REPO_NAME: openelections-data-la
 
-
 jobs:
-  get-results:
-    name: Get Election Data
+  setup-and-run-bot:
+    name: Setup and Run PelicanBot
+    runs-on: ubuntu-latest
+    outputs:
+      data-changed: ${{ steps.verify-changed-files.outputs.files_changed }}
+    steps:
+      - name: Checkout Local Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org | python -
+        working-directory: pelbot
+
+      - name: Install Dependencies and Run Bot
+        run: |
+          poetry install
+          poetry run python -m run
+        working-directory: pelbot
+        env:
+          CAPTURE_RANGE: ${{ env.CAPTURE_RANGE }}
+          CAPTURE_TYPE: ${{ env.CAPTURE_TYPE }}
+          STATE: ${{ env.STATE }}
+
+      - name: Verify Changed files
+        id: verify-changed-files
+        uses: tj-actions/verify-changed-files@v16
+        with:
+          files: |
+            data/**
+
+      - name: Export Data
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: election-data
+          path: data/
+
+  commit-and-push:
+    name: Commit and Push Changes
+    needs: setup-and-run-bot
+    if: needs.setup-and-run-bot.outputs.data-changed == 'true'
     runs-on: ubuntu-latest
     steps:
-      # Checkout repo
-    - name: Checkout Local Repo
-      uses: actions/checkout@v4
+      - name: Checkout Local Repo
+        uses: actions/checkout@v4
 
-      # Setup proper Python Version
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      # Download data from previous job, only if it has changed
+      - name: Download Data
+        uses: actions/download-artifact@v3
+        with:
+          name: election-data
 
-      # Intall Poetry
-    - name: Install Poetry
-      run: curl -sSL https://install.python-poetry.org | python -
-      working-directory: pelbot
-
-    - name: Install Deps and run PelicanBot
-      run: |
-        poetry install
-        poetry run python -m run
-      working-directory: pelbot
-      env:
-        CAPTURE_RANGE: ${{ env.CAPTURE_RANGE }}
-        CAPTURE_TYPE: ${{ env.CAPTURE_TYPE }}
-        STATE: ${{ env.STATE }}
-
-    # TODO: Setup ElectionBot & Import GPG Key for Verified Commits
-    # Docs: https://github.com/crazy-max/ghaction-import-gpg?tab=readme-ov-file#usage
-
-    - name: Commit and Push Changes
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: Updated Raw Election Files
-        branch: main
-        file_pattern: data/**/*  # Where are we looking for changes?
-        repository: .       # Working within the root of your repository
-        commit_user_name: ${{ secrets.USER_NAME }}
-        commit_user_email: ${{ secrets.USER_EMAIL }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Need to use custom token to trigger data sync notification
-
+      - name: Commit and Push Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Updated Raw Election Files
+          branch: main
+          file_pattern: data/**
+        env:
+          GIT_USER_NAME: ${{ secrets.USER_NAME }}
+          GIT_USER_EMAIL: ${{ secrets.USER_EMAIL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   notify-data-repo:
     name: Notify Data Repo
-    needs: get-results
+    needs: commit-and-push
     runs-on: ubuntu-latest
+    if: needs.commit-and-push.result == 'success'
     steps:
-    - name: Repository Dispatch
-      uses: peter-evans/repository-dispatch@v2
-      with:
-        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        repository: ${{ env.ORG_NAME }}/${{ env.DATA_REPO_NAME }}
-        event-type: import-data-trigger
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repository: ${{ env.ORG_NAME }}/${{ env.DATA_REPO_NAME }}
+          event-type: import-data-trigger
