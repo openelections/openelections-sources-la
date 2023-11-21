@@ -21,6 +21,11 @@ jobs:
     - name: Checkout Local Repo
       uses: actions/checkout@v4
 
+      # Intall Poetry
+    - name: Install Poetry
+      run: curl -sSL https://install.python-poetry.org | python -
+      working-directory: pelbot
+
     - name: Install Deps and run PelicanBot
       run: |
         poetry install
