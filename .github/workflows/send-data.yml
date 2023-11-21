@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - 'data/**'
+  workflow_dispatch:
+
 
 env:
   ORG_NAME: openelections # Who ownes the repo?
