@@ -9,12 +9,16 @@ on:
 
 
 env:
-  CAPTURE_RANGE: 20201103
+  CAPTURE_RANGE: 2023
   CAPTURE_TYPE: historical
   STATE: LA
+  ORG_NAME: openelections
+  DATA_REPO_NAME: openelections-data-la
+
 
 jobs:
-  trigger-workflow:
+  get-results:
+    name: Get Election Data
     runs-on: ubuntu-latest
     steps:
       # Checkout repo
@@ -42,16 +46,6 @@ jobs:
         CAPTURE_TYPE: ${{ env.CAPTURE_TYPE }}
         STATE: ${{ env.STATE }}
 
-
-    - name: Find Data Directory
-      run: |
-        printf "Root directory contents:\n"
-        ls -a
-        printf "\ndata directory contents:\n"
-        ls -a data
-        printf "\nSubdirectories of data:\n"
-        ls -aR data/
-
     # TODO: Setup ElectionBot & Import GPG Key for Verified Commits
     # Docs: https://github.com/crazy-max/ghaction-import-gpg?tab=readme-ov-file#usage
 
@@ -68,3 +62,14 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Need to use custom token to trigger data sync notification
 
 
+  notify-data-repo:
+    name: Notify Data Repo
+    needs: get-results
+    runs-on: ubuntu-latest
+    steps:
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        repository: ${{ env.ORG_NAME }}/${{ env.DATA_REPO_NAME }}
+        event-type: import-data-trigger
