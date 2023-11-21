@@ -15,3 +15,4 @@ Where:
     - `type` denotes the file format, which can vary depending on the type of data (e.g., CSV, TXT).
 
 **Suggestions about how to improve this structure welcome.**
+
