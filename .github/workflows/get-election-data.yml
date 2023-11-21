@@ -5,6 +5,13 @@ on:
     - cron: '0 1 * * *'
   workflow_dispatch:
 
+  push:
+    branches:
+      - main
+    paths:
+      - 'pelbot/config'
+
+
 env:
   CAPTURE_RANGE: 2020
   CAPTURE_TYPE: historical
@@ -31,7 +38,7 @@ jobs:
         run: curl -sSL https://install.python-poetry.org | python -
         working-directory: pelbot
 
-      - name: Install Dependencies and Run Bot
+      - name: Run PelicanBot
         run: |
           poetry install
           poetry run python -m run
@@ -68,14 +75,14 @@ jobs:
       - name: Download Data
         uses: actions/download-artifact@v3
         with:
-          name: election-data
+          name: ./
 
       - name: Commit and Push Changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Updated Raw Election Files
           branch: main
-          file_pattern: data/**
+          file_pattern: data/**/*
         env:
           GIT_USER_NAME: ${{ secrets.USER_NAME }}
           GIT_USER_EMAIL: ${{ secrets.USER_EMAIL }}
