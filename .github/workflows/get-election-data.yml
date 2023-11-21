@@ -55,29 +55,9 @@ jobs:
           files: |
             data/**
 
-      - name: Export Data
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        uses: actions/upload-artifact@v3
-        with:
-          name: election-data
-          path: data/
-
-  commit-and-push:
-    name: Commit and Push Changes
-    needs: setup-and-run-bot
-    if: needs.setup-and-run-bot.outputs.data-changed == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Local Repo
-        uses: actions/checkout@v4
-
-      # Download data from previous job, only if it has changed
-      - name: Download Data
-        uses: actions/download-artifact@v3
-        with:
-          name: ./
 
       - name: Commit and Push Changes
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Updated Raw Election Files
@@ -88,11 +68,20 @@ jobs:
           GIT_USER_EMAIL: ${{ secrets.USER_EMAIL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+
+      - name: Export Data
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: election-data
+          path: data/
+
+
   notify-data-repo:
     name: Notify Data Repo
-    needs: commit-and-push
+    needs: setup-and-run-bot
     runs-on: ubuntu-latest
-    if: needs.commit-and-push.result == 'success'
+    if: needs.setup-and-run-bot.result == 'success'
     steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v2
