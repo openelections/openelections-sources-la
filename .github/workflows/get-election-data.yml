@@ -21,6 +21,12 @@ jobs:
     - name: Checkout Local Repo
       uses: actions/checkout@v4
 
+      # Setup proper Python Version
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
       # Intall Poetry
     - name: Install Poetry
       run: curl -sSL https://install.python-poetry.org | python -
