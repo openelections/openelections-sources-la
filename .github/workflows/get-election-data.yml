@@ -1,0 +1,49 @@
+name: Capture State Data
+
+on:
+  schedule:
+    # Runs at 1 AM every day
+  - cron: '0 1 * * *'
+
+  workflow_dispatch:
+
+
+env:
+  CAPTURE_RANGE: all
+  CAPTURE_TYPE: historical
+  STATE: LA
+
+jobs:
+  trigger-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repo
+    - name: Checkout Local Repo
+      uses: actions/checkout@v4
+
+    - name: Install Deps and run PelicanBot
+      run: |
+        poetry install
+        poetry run python -m run
+      working-directory: pelbot
+      env:
+        CAPTURE_RANGE: ${{ env.CAPTURE_RANGE }}
+        CAPTURE_TYPE: ${{ env.CAPTURE_TYPE }}
+        STATE: ${{ env.STATE }}
+
+    # TODO: Setup ElectionBot & Import GPG Key for Verified Commits
+    # Docs: https://github.com/crazy-max/ghaction-import-gpg?tab=readme-ov-file#usage
+
+    - name: Commit and Push Changes
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: Updated Raw Election Files
+        branch: main
+        file_pattern: data/*  # Where are we looking for changes?
+        repository: .       # Working within the root of your repository
+        commit_user_name: ${{ secrets.USER_NAME }}
+        commit_user_email: ${{ secrets.USER_EMAIL }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # Need to use custom token to trigger data sync notification
+
+

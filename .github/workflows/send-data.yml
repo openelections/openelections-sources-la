@@ -6,7 +6,12 @@ on:
       - main
     paths:
       - 'data/**'
+
   workflow_dispatch:
+
+  workflow_run:
+    workflows: ["Capture State Data"]
+    types: [requested]
 
 
 env:
