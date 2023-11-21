@@ -68,15 +68,6 @@ jobs:
           GIT_USER_EMAIL: ${{ secrets.USER_EMAIL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
-      - name: Export Data
-        if: steps.verify-changed-files.outputs.files_changed == 'true'
-        uses: actions/upload-artifact@v3
-        with:
-          name: election-data
-          path: data/
-
-
   notify-data-repo:
     name: Notify Data Repo
     needs: setup-and-run-bot
