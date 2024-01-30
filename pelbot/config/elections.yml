@@ -2,7 +2,20 @@
 # Election Configuration
 elections:
   la:
+    2024:
+      - date: 20140323
+
+      - date: 20140427
+
+      - date: 20141105
+
+      - date: 20141207
+
+
     2023:
+      - date: 20231216
+        type: special
+        notes: Select local elections
       - date: 20231118
         type: general
         notes: Major statewide offices on ballot
