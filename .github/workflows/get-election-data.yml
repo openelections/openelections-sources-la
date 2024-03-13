@@ -2,15 +2,14 @@ name: Capture State Data
 
 on:
   schedule:
-    - cron: '0 1 * * *'
+    - cron: "0 1 * * *"
   workflow_dispatch:
 
   push:
     branches:
       - main
     paths:
-      - 'pelbot/config'
-
+      - "pelbot/config"
 
 env:
   CAPTURE_RANGE: all
@@ -32,10 +31,15 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install Poetry
         run: curl -sSL https://install.python-poetry.org | python -
+        working-directory: pelbot
+
+      # Added step to update the poetry.lock file without updating dependencies
+      - name: Update Poetry Lock File
+        run: poetry lock --no-update
         working-directory: pelbot
 
       - name: Run PelicanBot
@@ -54,7 +58,6 @@ jobs:
         with:
           files: |
             data/**
-
 
       - name: Commit and Push Changes
         if: steps.verify-changed-files.outputs.files_changed == 'true'
