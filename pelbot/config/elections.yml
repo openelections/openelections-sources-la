@@ -2,11 +2,25 @@
 # Election Configuration
 elections:
   la:
+    2026:
+      - date: 20260627
+      - date: 20260516
+      - date: 20260314
+      - date: 20260207
+
+    2025:
+      - date: 20251115
+      - date: 20251011
+      - date: 20250816
+      - date: 20250503
+      - date: 20250329
+      - date: 20250215
+
     2024:
-      - date: 20140323
-      - date: 20140427
-      - date: 20141105
-      - date: 20141207
+      - date: 20241207
+      - date: 20241105
+      - date: 20240427
+      - date: 20240323
 
 
     2023:
